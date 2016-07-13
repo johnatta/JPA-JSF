@@ -4,9 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.mail.MessageAware;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -19,10 +18,11 @@ import br.com.caelum.financas.modelo.ValorPorMesEAno;
 @Stateless
 public class MovimentacaoDao {
 
-	@PersistenceContext
+	@Inject
 	EntityManager manager;
 
 	public void adiciona(Movimentacao movimentacao) {
+		manager.joinTransaction();
 		this.manager.persist(movimentacao);
 		if (movimentacao.getValor().compareTo(BigDecimal.ZERO) < 0) {
 			throw new ValorInvalidoException("Movimentacao Negativa");
@@ -41,6 +41,7 @@ public class MovimentacaoDao {
 	public void remove(Movimentacao movimentacao) {
 		Movimentacao movimentacaoParaRemover = this.manager.find(
 				Movimentacao.class, movimentacao.getId());
+		manager.joinTransaction();
 		this.manager.remove(movimentacaoParaRemover);
 	}
 
@@ -89,4 +90,10 @@ public class MovimentacaoDao {
 
 	}
 
+	public List<Movimentacao> listaComCategorias() {
+		return this.manager.createQuery(
+				"select distinct m from Movimentacao m join fetch m.categorias",
+				Movimentacao.class).getResultList();
+
+	}
 }
