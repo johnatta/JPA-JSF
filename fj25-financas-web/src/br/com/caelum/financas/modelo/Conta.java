@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Cacheable
 public class Conta implements Serializable {
@@ -25,7 +28,9 @@ public class Conta implements Serializable {
 	private String banco;
 	@OneToMany(mappedBy="conta")
 	private List<Movimentacao> movimentacoes;
-
+	
+	@Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
+	@OneToMany(mappedBy ="conta")
 	public List<Movimentacao> getMovimentacoes() {
 		return movimentacoes;
 	}
