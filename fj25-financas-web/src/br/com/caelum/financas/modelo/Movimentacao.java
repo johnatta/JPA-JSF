@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.BatchSize;
+
 @Entity
 public class Movimentacao implements Serializable {
  
@@ -29,7 +31,7 @@ public class Movimentacao implements Serializable {
 	
 	@ManyToOne
 	private Conta conta;
-	
+	//@BatchSize(size=10)
 	@ManyToMany
 	private List<Categoria> categorias = new ArrayList<Categoria>();
 	
