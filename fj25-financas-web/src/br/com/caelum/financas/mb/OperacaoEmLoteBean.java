@@ -1,7 +1,10 @@
 package br.com.caelum.financas.mb;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import br.com.caelum.financas.dao.ContaDao;
 
 @Named
 @RequestScoped
@@ -11,7 +14,12 @@ public class OperacaoEmLoteBean {
 	private String novoNomeBanco;
 	private int contasAlteradas;
 	
+	@Inject
+	private ContaDao dao;
+	
 	public void atualizar() {
+		
+		this.contasAlteradas = dao.trocaNomeDoBancoEmLote(antigoNomeBanco, novoNomeBanco);
 
 		
 		
