@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -28,7 +29,17 @@ public class Conta implements Serializable {
 	private String banco;
 	@OneToMany(mappedBy="conta")
 	private List<Movimentacao> movimentacoes;
+	@Version
+	private Integer versao;
 	
+	public Integer getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Integer versao) {
+		this.versao = versao;
+	}
+
 	@Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
 	@OneToMany(mappedBy ="conta")
 	public List<Movimentacao> getMovimentacoes() {
