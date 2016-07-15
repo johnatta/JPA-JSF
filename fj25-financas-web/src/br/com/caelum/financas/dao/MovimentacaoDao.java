@@ -63,6 +63,9 @@ public class MovimentacaoDao {
 			TipoMovimentacao tipo) {
 		String jpql = "select m from Movimentacao m where m.valor <=:valor and  m.tipoMovimentacao =:tipo";
 		Query query = this.manager.createQuery(jpql);
+		query.setParameter("valor", valor);
+		query.setParameter("tipo", tipo);
+		query.setHint("org.hibernate.cacheable", true);
 		return query.getResultList();
 
 	}
