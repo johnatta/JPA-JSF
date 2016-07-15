@@ -12,12 +12,17 @@ import org.hibernate.stat.Statistics;
 @ApplicationScoped
 public class EstatisticasBean {
 	@Inject
-	EntityManager manager;
+	private EntityManager manager;
+	
+	public Statistics getEstatisticas() {
+		return estatisticas;
+	}
+
 	private Statistics estatisticas;
 
 		public void gera() {
 			System.out.println("Gerando est�tisitcas");
-			Session session = manager.unwrap(Session.class);
+			Session session = this.manager.unwrap(Session.class);
 			this.estatisticas = session.getSessionFactory().getStatistics();
 		}
 }
